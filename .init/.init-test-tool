@@ -1,0 +1,4 @@
+{
+    "command": "npm run test",
+    "working_directory": "/home/kavia/workspace/code-generation/health-tracker-pro-159096/calorie_workout_frontend"
+}
