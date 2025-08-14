@@ -1,63 +1,48 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
-import { AuthProvider } from "./context/AuthContext";
-import PrivateRoute from "./components/PrivateRoute";
-import Layout from "./components/Layout";
-
-// Pages
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import Foods from "./pages/Foods";
-import Exercises from "./pages/Exercises";
-import Analytics from "./pages/Analytics";
-import Profile from "./pages/Profile";
-import Goals from "./pages/Goals";
-import NotFound from "./pages/NotFound";
+import React, { useState, useEffect } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
 // PUBLIC_INTERFACE
-/**
- * Root App component bootstrapping router and providers.
- */
 function App() {
-  // Initialize theme from localStorage or default to light
+  const [theme, setTheme] = useState('light');
+
+  // Effect to apply theme to document element
   useEffect(() => {
-    const saved = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", saved);
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // PUBLIC_INTERFACE
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
-          {/* Private routes */}
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Layout />
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="foods" element={<Foods />} />
-            <Route path="exercises" element={<Exercises />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="goals" element={<Goals />} />
-          </Route>
-
-          {/* Fallback */}
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <div className="App">
+      <header className="App-header">
+        <button 
+          className="theme-toggle" 
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+        >
+          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+        </button>
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <p>
+          Current theme: <strong>{theme}</strong>
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 

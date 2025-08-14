@@ -1,9 +1,8 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { render, screen } from '@testing-library/react';
+import App from './App';
 
-test("renders sign in prompt when not authenticated", async () => {
+test('renders learn react link', () => {
   render(<App />);
-  // Wait for redirect to /login and the sign-in UI to appear
-  const text = await screen.findByText(/sign in/i);
-  expect(text).toBeInTheDocument();
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
 });
